@@ -1,11 +1,13 @@
 const express = require("express")
 const app = express()
 const https = require('https');
-const path = require('path')
+const path = require('path');
+require('dotenv').config()
+ 
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get("/api", (req, res) => {
+app.get("/localtest", (req, res) => {
     const data = [
         {id: 1, firstName: 'Jon', lastName: "Doe"},
         {id: 1, firstName: 'Mary', lastName: "Gol"},
@@ -15,10 +17,12 @@ app.get("/api", (req, res) => {
     res.json(data)
 })
 
+const apiKey = `${process.env.NASA_APIKEY}`
+const baseUrl = 'https://api.nasa.gov/planetary/'
 
 app.get("/testApi", (req, res) =>{
         
-  https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
+  https.get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`, (resp) => {
       let data = '';
   
       // A chunk of data has been recieved.
@@ -38,6 +42,12 @@ app.get("/testApi", (req, res) =>{
   
 })
 
+// app.get('/headers', (req, res) =>{
+//   https(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`,{method: 'HEAD'}, (err, res, body) =>{
+//     console.log(res.headers)
+//   })
+// })
+
 
 if(process.env.NODE_ENV === 'production') {  
   app.use(express.static(path.join(__dirname, 'client/build'))); 
@@ -47,7 +57,9 @@ if(process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000
 
-
+// https.get('https://api.nasa.gov/planetary/apod?api_key=gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc', (resp) =>{
+//   console.log('testCall data', resp.data)
+// })
 
 
 https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
@@ -61,7 +73,7 @@ https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
 
   // The whole response has been received. Print out the result.
   resp.on('end', () => {
-    console.log(JSON.parse(data).explanation);
+    // console.log(JSON.parse(data).explanation);
   });
 
 }).on("error", (err) => {
