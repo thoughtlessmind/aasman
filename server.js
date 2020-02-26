@@ -42,11 +42,6 @@ app.get("/testApi", (req, res) =>{
   
 })
 
-// app.get('/headers', (req, res) =>{
-//   https(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`,{method: 'HEAD'}, (err, res, body) =>{
-//     console.log(res.headers)
-//   })
-// })
 
 
 if(process.env.NODE_ENV === 'production') {  
@@ -57,27 +52,26 @@ if(process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 5000
 
-// https.get('https://api.nasa.gov/planetary/apod?api_key=gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc', (resp) =>{
-//   console.log('testCall data', resp.data)
-// })
-
-
-https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
-  let data = '';
-
-  // A chunk of data has been recieved.
-  resp.on('data', (chunk) => {
-    data += chunk;
-    // console.log("first console")
-  });
-
-  // The whole response has been received. Print out the result.
-  resp.on('end', () => {
-    // console.log(JSON.parse(data).explanation);
-  });
-
-}).on("error", (err) => {
-  console.log("Error: " + err.message);
-});
 
 app.listen(port, ()=>console.log(`Server has started on port ${port}`))
+
+
+
+//    Demo api call
+// https.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY', (resp) => {
+//   let data = '';
+
+//   // A chunk of data has been recieved.
+//   resp.on('data', (chunk) => {
+//     data += chunk;
+//     // console.log("first console")
+//   });
+
+//   // The whole response has been received. Print out the result.
+//   resp.on('end', () => {
+//     // console.log(JSON.parse(data).explanation);
+//   });
+
+// }).on("error", (err) => {
+//   console.log("Error: " + err.message);
+// });
