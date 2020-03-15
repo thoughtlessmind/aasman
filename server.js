@@ -3,26 +3,18 @@ const app = express()
 const https = require('https');
 const path = require('path');
 require('dotenv').config()
+const url = require('url')
  
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get("/localtest", (req, res) => {
-    const data = [
-        {id: 1, firstName: 'Jon', lastName: "Doe"},
-        {id: 1, firstName: 'Mary', lastName: "Gol"},
-        {id: 1, firstName: 'Dave', lastName: "Patrick"}
-    ]
-
-    res.json(data)
-})
 
 const apiKey = `${process.env.NASA_APIKEY}`
-const baseUrl = 'https://api.nasa.gov/planetary/'
+const baseUrl = 'https://api.nasa.gov/planetary'
 
-app.get("/testApi", (req, res) =>{
+app.get("/apod", (req, res) =>{
         
-  https.get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`, (resp) => {
+  https.get(`${baseUrl}/apod?api_key=${apiKey}`, (resp) => {
       let data = '';
   
       // A chunk of data has been recieved.
@@ -39,8 +31,35 @@ app.get("/testApi", (req, res) =>{
   }).on("error", (err) => {
       console.log("Error: " + err.message);
   });
+
+  
+  getHeaders(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`).then((headers) => {
+    console.log('x-ratelimit-remaining--', headers['x-ratelimit-remaining'])
+  })
   
 })
+
+
+function getHeaders(myURL) {
+  const parsedURL = url.parse(myURL)
+  const options = {
+    protocol: parsedURL.protocol,
+    hostname: parsedURL.hostname,
+    method: 'HEAD',
+    path: parsedURL.path
+  }
+  let protocolHandler = (parsedURL.protocol === 'https:' ? https : http)
+
+  return new Promise((resolve, reject) => {
+    let req = protocolHandler.request(options, (res) => {
+      resolve(res.headers)
+    })
+    req.on('error', (e) => {
+      reject(e)
+    })
+    req.end()
+  })
+} 
 
 
 
