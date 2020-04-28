@@ -1,9 +1,20 @@
 import React , {useState, useEffect} from 'react';
-import { Box, makeStyles, createStyles, Typography, Paper, Grid } from '@material-ui/core';
+import {
+    Box,
+    makeStyles,
+    createStyles,
+    Typography,
+    Grid,
+    AppBar,
+    Toolbar,
+    CircularProgress
+} from '@material-ui/core';
 // import axios from 'axios'
 
 const Apod  = () => {
     const[responseData, setResponseData] = useState([])
+
+    const classes = usestyles()
 
     useEffect(()=>{
         fetch("/apod")
@@ -12,11 +23,11 @@ const Apod  = () => {
     },[])
     const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
 
-    useEffect(()=>{
-        console.log('whole data', responseData)
-    })
+    // useEffect(()=>{
+    //     console.log('whole data', responseData)
+    // })
 
-    const classes = usestyles()
+    
 
     // const testCaller = () =>{
     //     axios.get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`)
@@ -29,16 +40,19 @@ const Apod  = () => {
     //     testCaller()
     // },[])
 
+
     return(
         <Box>
             { responseData.length === 0 || responseData === undefined ?
-                <Typography>image is being loaded</Typography> :
-                <Grid container>
+                <CircularProgress size={21}/> :
+                <Grid className={classes.mainContainer} container>
                     <Grid item md={8}>
                         {
-                            responseData.media_type === 'image' ?
-                                <img src= {responseData.url} height="100%" alt="nasa image of the day"/>:
-                                <embed height='400px' width='700px' src={`${responseData.url}&autoplay=1`}/>
+                            !responseData ?
+                                < CircularProgress className={classes.loaderStyle} size = {21}/> :
+                                responseData.media_type === 'image' ?
+                                    <img src= {responseData.url} className={classes.apoImage} height="100%" alt="nasa image of the day"/>:
+                                    <embed height='400px' width='700px' src={`${responseData.url}&autoplay=1`}/>
                         }
                         
                     </Grid>
@@ -56,8 +70,20 @@ const Apod  = () => {
 
 const usestyles = makeStyles(theme =>
     createStyles({
+        mainContainer:{
+            position: 'relative',
+            height: '80vh'
+        },
         mainText:{
             fontSize: '16px'
+        },
+        loaderStyle:{
+            position: 'absolute',
+            top: '50%',
+            right: '50%'
+        },
+        apoImage:{
+            width: 'fit-content'
         }
     })
 )
