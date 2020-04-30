@@ -5,11 +5,9 @@ import {
     createStyles,
     Typography,
     Grid,
-    AppBar,
-    Toolbar,
     CircularProgress
 } from '@material-ui/core';
-// import axios from 'axios'
+
 
 const Apod  = () => {
     const[responseData, setResponseData] = useState([])
@@ -22,10 +20,6 @@ const Apod  = () => {
             .then(data => setResponseData(data))
     },[])
     const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
-
-    // useEffect(()=>{
-    //     console.log('whole data', responseData)
-    // })
 
     
 
@@ -40,30 +34,30 @@ const Apod  = () => {
     //     testCaller()
     // },[])
 
+    useEffect(()=>{
+        fetch('/astros')
+            .then(res => res.json())
+            .then(data => console.log(data))
+    },[])
+
 
     return(
-        <Box>
-            { responseData.length === 0 || responseData === undefined ?
-                <CircularProgress size={21}/> :
-                <Grid className={classes.mainContainer} container>
-                    <Grid item md={8}>
-                        {
-                            !responseData ?
-                                < CircularProgress className={classes.loaderStyle} size = {21}/> :
-                                responseData.media_type === 'image' ?
-                                    <img src= {responseData.url} className={classes.apoImage} height="100%" alt="nasa image of the day"/>:
-                                    <embed height='400px' width='700px' src={`${responseData.url}&autoplay=1`}/>
-                        }
-                        
-                    </Grid>
 
-                    <Grid item md={4}>
-                        <Typography variant='h5' align='left' className={classes.mainText}>
-                            {responseData.explanation}
-                        </Typography>
-                    </Grid>
-                </Grid>
-            }
+        <Box className={classes.mainContainer}>
+            <Box>
+                {
+                    responseData.length ==0 ?
+                        <CircularProgress className={classes.loaderStyle} size={21}/>:
+                        responseData.media_type === 'image'?
+                            <img src= {responseData.url} className={classes.apoImage} height="100%" alt="nasa image of the day"/>:
+                            <embed height='400px' width='700px' src={`${responseData.url}&autoplay=1`}/>
+                }
+            </Box>
+            <Box>
+                <Typography variant='h5' align='left' className={classes.mainText}>
+                    {responseData.explanation}
+                </Typography>
+            </Box> 
         </Box>
     );
 }
@@ -71,8 +65,9 @@ const Apod  = () => {
 const usestyles = makeStyles(theme =>
     createStyles({
         mainContainer:{
-            position: 'relative',
-            height: '80vh'
+            height: '80vh',
+            display: 'flex',
+
         },
         mainText:{
             fontSize: '16px'
