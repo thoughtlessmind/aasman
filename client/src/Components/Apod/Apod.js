@@ -21,24 +21,13 @@ const Apod  = () => {
     },[])
     const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
 
-    
-
-    // const testCaller = () =>{
-    //     axios.get(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`)
-    //         .then((res)=>{
-    //             setCustomers(res)
-    //         })
-    //     }
-    // 
-    // useEffect(()=>{
-    //     testCaller()
-    // },[])
 
     useEffect(()=>{
         fetch('/astros')
             .then(res => res.json())
             .then(data => console.log(data))
     },[])
+
 
 
     return(
@@ -54,7 +43,7 @@ const Apod  = () => {
                 }
             </Box>
             <Box>
-                <Typography variant='h5' align='left' className={classes.mainText}>
+                <Typography variant='h5' align='left' id="temp" className={classes.mainText}>
                     {responseData.explanation}
                 </Typography>
             </Box> 
@@ -79,6 +68,10 @@ const usestyles = makeStyles(theme =>
         },
         apoImage:{
             width: 'fit-content'
+        },
+        dark:{
+            backgroundColor: '#000',
+            color: '#fff'
         }
     })
 )
