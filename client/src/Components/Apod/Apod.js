@@ -5,12 +5,16 @@ import {
     createStyles,
     Typography,
     Grid,
-    CircularProgress
+    CircularProgress,
+    useFormControl
 } from '@material-ui/core';
 
 
 const Apod  = () => {
     const[responseData, setResponseData] = useState([])
+    const[responseData2, setResponseData2] = useState([])
+    const [responseData3, setResponseData3] = useState([])
+
 
     const classes = usestyles()
 
@@ -19,14 +23,28 @@ const Apod  = () => {
             .then(res => res.json())
             .then(data => setResponseData(data))
     },[])
-    const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
+    
+    useEffect(()=>{
+        fetch("https://api.spacexdata.com/v3/roadster")
+            .then(res => setResponseData2(res))
+            .then(res => console.log(res))
+    },[])
 
 
     useEffect(()=>{
-        fetch('/astros')
-            .then(res => res.json())
-            .then(data => console.log(data))
+        console.log(responseData2)
+    },[responseData2])
+
+    useEffect(()=>{
+        fetch("http://api.open-notify.org/astros.json")
+            .then(res => setResponseData3(res.body))
     },[])
+
+    useEffect(()=>{
+        console.log(responseData3)
+    },[responseData3])
+    const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
+
 
 
 
@@ -34,6 +52,9 @@ const Apod  = () => {
 
         <Box className={classes.mainContainer}>
             <Box>
+                <Typography className={classes.header} variant="h2">
+                    Astronomy Picture of the Day
+                </Typography>
                 {
                     responseData.length ==0 ?
                         <CircularProgress className={classes.loaderStyle} size={21}/>:
@@ -56,7 +77,11 @@ const usestyles = makeStyles(theme =>
         mainContainer:{
             height: '80vh',
             display: 'flex',
+            padding: '1.5rem'
 
+        },
+        header:{
+            fontSize: '1.2rem'
         },
         mainText:{
             fontSize: '16px'
@@ -67,11 +92,23 @@ const usestyles = makeStyles(theme =>
             right: '50%'
         },
         apoImage:{
-            width: 'fit-content'
+            height: 'auto',
+            maxHeight: '80vh'
         },
         dark:{
             backgroundColor: '#000',
             color: '#fff'
+        },
+        [theme.breakpoints.down('md')]:{
+            mainContainer:{
+                flexDirection: 'column',
+                padding: '0'
+            },
+            apoImage:{
+                height: 'auto',
+                maxHeight: '80vh',
+                maxWidth: '100vw'
+            }
         }
     })
 )
