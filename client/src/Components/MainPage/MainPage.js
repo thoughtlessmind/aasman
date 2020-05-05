@@ -4,16 +4,19 @@ import Apod from '../Apod/Apod';
 import AppTopBar from '../AppBar/AppTopBar'
 
 
-const MainPage  = () => {
-    // const classes = usestyles()
 
-    return(
-        <Box>
-            <AppTopBar/>
-            <Apod/>
-        </Box>
-    );
+
+class MainPage extends React.Component{
+    render(){
+        return(
+            <Box>
+                <AppTopBar/>
+                <Apod/>
+            </Box>
+        )
+    }
 }
+
 
 
 export default MainPage ;
