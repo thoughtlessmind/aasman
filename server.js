@@ -39,20 +39,6 @@ app.get("/apod", (req, res) =>{
   
 })
 
-app.get('/astros', (req, res) => {
-  https.get('http://api.open-notify.org/astros.json', (res) => {
-    let data = ''
-    res.on('data', (chunk) => {
-      data += chunk
-      res.json(JSON.parse(data))
-    })
-    res.on('end', () => {
-      console.log(JSON.parse(data))
-    })
-  }).on('error', (err)=>{
-    console.log(err)
-  })
-})
 
 
 function getHeaders(myURL) {
