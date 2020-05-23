@@ -9,36 +9,15 @@ import {
 
 
 const Apod  = (props) => {
+    
     const {apodData} = props
 
-
     const classes = usestyles()
-
-    // useEffect(()=>{
-    //     fetch("/apod")
-    //         .then(res => res.json())
-    //         .then(data => setResponseData(data))
-    // },[])
-    
-    // useEffect(()=>{
-    //     fetch("https://api.spacexdata.com/v3/roadster")
-    //         .then(res => setResponseData2(res))
-    //         .then(res => console.log(res))
-    // },[])
 
     useEffect(()=>{
         console.log('apodData', apodData);
     },[apodData])
 
-
-    // useEffect(()=>{
-    //     fetch("http://api.open-notify.org/astros.json")
-    //         .then(res => setResponseData3(res.body))
-    // },[])
-
-    // useEffect(()=>{
-    //     console.log(responseData3)
-    // },[responseData3])
     const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
 
 
@@ -83,8 +62,18 @@ const usestyles = makeStyles(theme =>
             justifyContent: 'center',
             flexDirection: 'row-reverse',
             width: '100%',
-            color: 'rgba(255,255,255,0.9)'
-
+            color: 'rgba(255,255,255,0.9)',
+            animationName: 'grow',
+            animationDuration: '5s',
+            transformOrigin: 'center',
+        },
+        '@keyframes grow':{
+            '0%':{
+                scale: '0'
+            },
+            '100%':{
+                scale: '1'
+            }
         },
         header:{
             textAlign: 'center',
