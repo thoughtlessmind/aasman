@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react';
+import React , {useEffect, Fragment} from 'react';
 import {
     Box,
     makeStyles,
@@ -20,58 +20,42 @@ const Apod  = (props) => {
 
     const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
 
+    useEffect(()=>{
+        console.log(window.innerHeight);
+        console.log(window.innerWidth);
+        
+        
+    },[])
+
 
 
 
     return(
 
         <Box className={classes.mainContainer}>
-            {/* <Box className={classes.apodContainer}>
-                {
-                    !apodData ?
-                        <CircularProgress className={classes.loaderStyle} size={21}/>:
-                        apodData.media_type === 'image'?
-                            <img src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
-                            <embed height='400px' width='700px' src={`${apodData.url}&autoplay=1`}/>
-                }
-            </Box>
-            <Box>
-                <Typography className={classes.header} variant="h1">
-                    Astronomy Picture of the Day
-                </Typography>
-                <Box className={classes.apodTextConatiner}>
-                    <Typography variant="h4" align='left' className={classes.apodTitle}>
-                        {apodData.title}
-                    </Typography>
-                    <Typography variant='h5' align='left' id="temp" className={classes.mainText}>
-                        {apodData.explanation}
-                    </Typography>
-                </Box>
-                
-            </Box>  */}
             {
                 !apodData ?
                     <CircularProgress className={classes.loaderStyle} size={21}/>:
-                    <Box>
-                        <Box>
-                            <Typography>
+                    <Fragment>
+                        <Box className={classes.textContainer}>
+                            <Typography style={{fontSize: '1.6rem', textAlign: 'left'}}>
                                 Astronomy Picture of the Day
                             </Typography>
-                            <Typography>
+                            <Typography style={{fontSize: '2rem', textAlign: 'left', paddingTop: '2rem'}}>
                                 {apodData.title}
                             </Typography>
-                            <Typography>
+                            <Typography style={{paddingTop: '0.5rem'}}>
                                 {apodData.explanation}
                             </Typography>
                         </Box>
-                        <Box>
+                        <Box className={classes.apodMediaContainer}>
                             {
-                                apodData.media_type === 'image'?
+                                apodData.media_type === 'image' ?
                                     <img src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
-                                    <embed height='400px' width='700px' src={`${apodData.url}&autoplay=1`}/>
+                                    <video height='400px' width='700px' src={`${apodData.url}&autoplay=1`}/>
                             }
                         </Box>
-                    </Box>
+                    </Fragment>
 
             }
         </Box>
@@ -81,10 +65,13 @@ const Apod  = (props) => {
 const usestyles = makeStyles(theme =>
     createStyles({
         mainContainer:{
+            display: 'flex',
+            flexDirection: 'row',
             color: 'rgba(255,255,255,0.9)',
             animationName: 'grow',
             animationDuration: '5s',
             transformOrigin: 'center',
+            padding: '2rem'
         },
         '@keyframes grow':{
             '0%':{
@@ -99,8 +86,11 @@ const usestyles = makeStyles(theme =>
             fontSize: '1.5rem',
             fontWeight: '700'
         },
-        apodTextConatiner:{
-            marginTop: '2rem'
+        textContainer: {
+            textAlign: 'left'
+        },
+        apodMediaContainer:{
+            // width: '50%'
         },
         apodTitle:{
             fontSize: '2rem'
@@ -126,10 +116,10 @@ const usestyles = makeStyles(theme =>
 
         },
         apoImage:{
-            height: '100%',
-            // width: 'auto',
-            // maxHeight: '80vh',
-            imageRendering: 'pixelated'
+            height: '80vh',
+            imageRendering: 'pixelated',
+            minHeight: '400px',
+            maxHeight: '700px'
         },
         dark:{
             backgroundColor: '#000',
@@ -139,12 +129,10 @@ const usestyles = makeStyles(theme =>
             mainContainer:{
                 flexDirection: 'column',
                 padding: '0'
-            },
-            apoImage:{
-                width: '80vw'
             }
         }
     })
 )
 
 export default Apod ;
+

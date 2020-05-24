@@ -29,17 +29,12 @@ class MainPage extends React.Component{
     }
 
     getApod = () =>{
-        // fetch("/apod")
-        //     .then(res => res.json())
-        //     .then(data=> {
-        //         this.setState({apodData: data})
-        //     })
+        fetch("/apod")
+            .then(res => res.json())
+            .then(data=> {
+                this.setState({apodData: data})
+            })
 
-        setTimeout(() => {
-            return {
-                data: null
-            }
-        }, 20000);
     }
 
     componentDidMount() {
