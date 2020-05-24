@@ -14,18 +14,32 @@ const Apod  = (props) => {
 
     const classes = usestyles()
 
-    useEffect(()=>{
-        console.log('apodData', apodData);
-    },[apodData])
-
     const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
 
-    useEffect(()=>{
-        console.log(window.innerHeight);
-        console.log(window.innerWidth);
-        
-        
-    },[])
+    const imageViewer = (e) =>{
+        console.log('target', e.target.src);
+        let mainDiv = document.createElement('div')
+        mainDiv.classList.add('imageViewerClass')
+        let imageEl = document.createElement('img')
+        imageEl.setAttribute('src', e.target.src)
+        let bodyEl = document.getElementById('root')
+        mainDiv.appendChild(imageEl)
+        bodyEl.appendChild(mainDiv)
+
+        mainDiv.addEventListener('click', (e) => {
+            // console.log(e)
+            // console.log(e.target);
+            // console.log(e.path.haso('img'));
+            // console.log('outside clilcked');
+            
+            if(e.target !== imageEl){
+                console.log('outside clicked');
+                bodyEl.removeChild(mainDiv)
+            }
+            
+        })
+    }
+
 
 
 
@@ -51,13 +65,17 @@ const Apod  = (props) => {
                         <Box className={classes.apodMediaContainer}>
                             {
                                 apodData.media_type === 'image' ?
-                                    <img src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
+                                    <img onClick={imageViewer} src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
                                     <video height='400px' width='700px' src={`${apodData.url}&autoplay=1`}/>
                             }
                         </Box>
                     </Fragment>
 
             }
+
+            {/* <Box className={classes.imageViewerClass}>
+                <img src={apodData && apodData.url}/>
+            </Box> */}
         </Box>
     );
 }
@@ -124,6 +142,13 @@ const usestyles = makeStyles(theme =>
         dark:{
             backgroundColor: '#000',
             color: '#fff'
+        },
+
+        imageViewerClass:{
+            position: 'fixed',
+            top: '20%',
+            left: '20%',
+            zIndex: '1000'
         },
         [theme.breakpoints.down('md')]:{
             mainContainer:{
