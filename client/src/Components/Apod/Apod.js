@@ -26,7 +26,7 @@ const Apod  = (props) => {
     return(
 
         <Box className={classes.mainContainer}>
-            <Box className={classes.apodContainer}>
+            {/* <Box className={classes.apodContainer}>
                 {
                     !apodData ?
                         <CircularProgress className={classes.loaderStyle} size={21}/>:
@@ -48,7 +48,32 @@ const Apod  = (props) => {
                     </Typography>
                 </Box>
                 
-            </Box> 
+            </Box>  */}
+            {
+                !apodData ?
+                    <CircularProgress className={classes.loaderStyle} size={21}/>:
+                    <Box>
+                        <Box>
+                            <Typography>
+                                Astronomy Picture of the Day
+                            </Typography>
+                            <Typography>
+                                {apodData.title}
+                            </Typography>
+                            <Typography>
+                                {apodData.explanation}
+                            </Typography>
+                        </Box>
+                        <Box>
+                            {
+                                apodData.media_type === 'image'?
+                                    <img src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
+                                    <embed height='400px' width='700px' src={`${apodData.url}&autoplay=1`}/>
+                            }
+                        </Box>
+                    </Box>
+
+            }
         </Box>
     );
 }
@@ -56,12 +81,6 @@ const Apod  = (props) => {
 const usestyles = makeStyles(theme =>
     createStyles({
         mainContainer:{
-            height: '80vh',
-            display: 'flex',
-            padding: '1.5rem',
-            justifyContent: 'center',
-            flexDirection: 'row-reverse',
-            width: '100%',
             color: 'rgba(255,255,255,0.9)',
             animationName: 'grow',
             animationDuration: '5s',
