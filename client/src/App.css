@@ -64,3 +64,36 @@ body{
   height: 70vh;
   width: auto;
 }
+
+.hide{
+  display: none;
+  /* transition: 0.42s;
+  transform-origin: center;
+  animation-name: closeAnim;
+  animation-duration: 0.42s; */
+}
+
+@keyframes closeAnim{
+  0%{
+    transform: scale(1);
+  }
+  100%{
+    transform: scale(0);
+  }
+}
+
+.imageViewerImage{
+  transform-origin: center;
+  animation-name: showAnim;
+  animation-duration: 0.42s;
+}
+
+@keyframes showAnim {
+  0%{
+    transform: scale(0)
+  };
+  100%{
+    transform: scale(1);
+  }
+
+}

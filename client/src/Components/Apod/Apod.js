@@ -17,11 +17,11 @@ const Apod  = (props) => {
     const apiKey = 'gvLAFHhWfMdinBAuKFDs7VbBYNho9c6bHsVzCgRc'
 
     const imageViewer = (e) =>{
-        console.log('target', e.target.src);
+        console.log('e', e.target);
         let mainDiv = document.createElement('div')
         mainDiv.classList.add('imageViewerClass')
-        let imageEl = document.createElement('img')
-        imageEl.setAttribute('src', e.target.src)
+        let imageEl = e.target.cloneNode(true)
+        // imageEl.setAttribute('src', e.target.src)
         let bodyEl = document.getElementById('root')
         mainDiv.appendChild(imageEl)
         bodyEl.appendChild(mainDiv)
@@ -38,6 +38,22 @@ const Apod  = (props) => {
             }
             
         })
+    }
+
+    const imageViewer2 = (e) =>{
+        let imageViewerEl = document.getElementById('imageViewerEl')
+        imageViewerEl.classList.remove('hide')
+        imageViewerEl.classList.add('imageViewerImage')
+    }
+
+    const closeImageViewer = (e) =>{
+        let imageViewerEl = document.getElementById('imageViewerEl')
+        console.log(e.target);
+        console.log(e.target === imageViewerEl);
+        
+        
+        e.target === imageViewerEl && imageViewerEl.classList.add('hide')
+        
     }
 
 
@@ -65,7 +81,7 @@ const Apod  = (props) => {
                         <Box className={classes.apodMediaContainer}>
                             {
                                 apodData.media_type === 'image' ?
-                                    <img onClick={imageViewer} src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
+                                    <img onClick={imageViewer2} src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
                                     <video height='400px' width='700px' src={`${apodData.url}&autoplay=1`}/>
                             }
                         </Box>
@@ -73,9 +89,12 @@ const Apod  = (props) => {
 
             }
 
-            {/* <Box className={classes.imageViewerClass}>
+            <Box onClick={closeImageViewer} id='imageViewerEl' className={`${classes.imageViewerClass} hide`}>
+                {/* <Box className='imageViewerImage'>
+                    <img src={apodData && apodData.url}/>
+                </Box> */}
                 <img src={apodData && apodData.url}/>
-            </Box> */}
+            </Box>
         </Box>
     );
 }
@@ -137,7 +156,8 @@ const usestyles = makeStyles(theme =>
             height: '80vh',
             imageRendering: 'pixelated',
             minHeight: '400px',
-            maxHeight: '700px'
+            maxHeight: '700px',
+            cursor: 'pointer'
         },
         dark:{
             backgroundColor: '#000',
@@ -146,9 +166,12 @@ const usestyles = makeStyles(theme =>
 
         imageViewerClass:{
             position: 'fixed',
-            top: '20%',
-            left: '20%',
-            zIndex: '1000'
+            top: '0%',
+            left: '0%',
+            zIndex: '1000',
+            background: 'rgba(0,0,0,0.5)',
+            width: '100%',
+            height: '100%'
         },
         [theme.breakpoints.down('md')]:{
             mainContainer:{
