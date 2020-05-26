@@ -34,6 +34,7 @@ class MainPage extends React.Component{
             .then(data=> {
                 this.setState({apodData: data})
             })
+
     }
 
     componentDidMount() {
