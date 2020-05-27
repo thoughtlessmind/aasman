@@ -1,5 +1,0 @@
-# aasman
-
-```
-Under development
-```
