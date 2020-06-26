@@ -15,18 +15,13 @@ class MainPage extends React.Component{
         super(props)
         this.state = {
             issPosition: null,
-            apodData: []
+            apodData: [],
+            issInfo: [],
+            roadsterInfo:[]
         }
     }
 
-    getIssPosition = async () =>{
-        await axios({
-            method: 'GET',
-            url: 'http://api.open-notify.org/iss-now.json'
-        }).then(res=>{
-            this.setState({issPosition: res.data})
-        })
-    }
+
 
     getApod = () =>{
         fetch("/apod")
@@ -37,20 +32,37 @@ class MainPage extends React.Component{
 
     }
 
-    getAstro = async() =>{
-        await axios ({
-            mehthod: 'GET',
-            url: 'https://www.howmanypeopleareinspacerightnow.com/peopleinspace.json'
-        }).then(res=>{
-            console.log('getAstro res', res.data);
-            
-        })
+    getIssInfo = () => {
+        fetch("/issInfo")
+            .then(res => res.json())
+            .then(data=> {
+                this.setState({issInfo: data})
+            })
+
+    }
+
+    getIssLocation = () => {
+        fetch("/issLocation")
+            .then(res => res.json())
+            .then(data=> {
+                this.setState({issPosition: data})
+            })
+    }
+
+    getRoadsterInfo = () => {
+        fetch("/roadsterInfo")
+            .then(res => res.json())
+            .then(data=> {
+                console.log(data);
+                this.setState({roadsterInfo: data})
+            })
     }
 
     componentDidMount() {
-        this.getIssPosition()
         this.getApod()
-        this.getAstro()
+        this.getIssInfo()
+        // this.getIssLocation()
+        // this.getRoadsterInfo()
     }
 
 
@@ -60,7 +72,7 @@ class MainPage extends React.Component{
             <Box>
                 <AppTopBar/>
                 <Apod apodData={this.state.apodData}/>
-                <Iss issPosition={this.state.issPosition}/>
+                <Iss issPosition={this.state.issPosition} issInfo={this.state.issInfo}/>
             </Box>
         )
     }
