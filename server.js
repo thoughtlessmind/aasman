@@ -4,7 +4,7 @@ const https = require('https');
 const path = require('path');
 require('dotenv').config()
 const url = require('url')
- 
+
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -39,6 +39,44 @@ app.get("/apod", (req, res) =>{
   
 })
 
+app.get("/issInfo",(req, res)=>{
+  https.get('https://www.howmanypeopleareinspacerightnow.com/peopleinspace.json', (resp)=>{
+    let data = ''
+    resp.on('data', (chunk)=>{
+      data += chunk;
+      res.json(JSON.parse(data))
+    }).on('error',(err)=>{
+      console.log('Error: ', err.message);
+    })
+  })
+})
+
+
+
+app.get("/issLocation",(req, res)=>{
+  https.get('http://api.open-notify.org/iss-now.json', (resp) => {
+    let data = ''
+    resp.on('data', (chunk)=>{
+      data += chunk;
+      res.json(JSON.parse(data))
+    }).on('error',(err)=>{
+      console.log('Error: ', err.message);
+    })
+  })
+})
+
+
+/*app.get("/roadsterInfo",(req, res)=>{
+  https.get('https://api.spacexdata.com/v3/roadster', (resp) => {
+    let data = ''
+    resp.on('data', (chunk)=>{
+      data += chunk;
+      res.json(JSON.parse(data))
+    }).on('error',(err)=>{
+      console.log('Error: ', err.message);
+    })
+  })
+})*/
 
 
 function getHeaders(myURL) {

@@ -4,7 +4,8 @@ import { Box, makeStyles, createStyles, Typography, CircularProgress } from '@ma
 const Iss  = (props) => {
 
     const classes = usestyles()
-    const {issPosition} = props
+    const {issPosition, issInfo} = props
+
 
 
     return(
@@ -33,7 +34,7 @@ const Iss  = (props) => {
 
             <Box className={classes.subContainer}>
                 <Typography variant='h5'>People in space</Typography>
-                <Typography>{3}</Typography>
+                <Typography>{issInfo ? issInfo.number : 'Null'}</Typography>
             </Box>
         </Box>
     );
