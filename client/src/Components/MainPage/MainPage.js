@@ -37,9 +37,20 @@ class MainPage extends React.Component{
 
     }
 
+    getAstro = async() =>{
+        await axios ({
+            mehthod: 'GET',
+            url: 'https://www.howmanypeopleareinspacerightnow.com/peopleinspace.json'
+        }).then(res=>{
+            console.log('getAstro res', res.data);
+            
+        })
+    }
+
     componentDidMount() {
         this.getIssPosition()
         this.getApod()
+        this.getAstro()
     }
 
 
