@@ -1,4 +1,5 @@
 import React , {useEffect, Fragment} from 'react';
+import ImageViewer from '../Global/ImageViewer/ImageViewer'
 import {
     Box,
     makeStyles,
@@ -81,7 +82,8 @@ const Apod  = (props) => {
                         <Box className={classes.apodMediaContainer}>
                             {
                                 apodData.media_type === 'image' ?
-                                    <img onClick={imageViewer2} src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
+                                    // <img onClick={imageViewer2} src= {apodData.url} className={classes.apoImage} alt={apodData.title}/>:
+                                    <ImageViewer src={apodData.url}/>:
                                     <video height='400px' width='700px' src={`${apodData.url}&autoplay=1`}/>
                             }
                         </Box>
@@ -93,7 +95,7 @@ const Apod  = (props) => {
                 {/* <Box className='imageViewerImage'>
                     <img src={apodData && apodData.url}/>
                 </Box> */}
-                <img src={apodData && apodData.url}/>
+                <img style={{padding: '3%', height: '100vh', width: 'auto'}} src={apodData && apodData.url}/>
             </Box>
         </Box>
     );
@@ -171,7 +173,7 @@ const usestyles = makeStyles(theme =>
             zIndex: '1000',
             background: 'rgba(0,0,0,0.5)',
             width: '100%',
-            height: '100%'
+            height: '100%',
         },
         [theme.breakpoints.down('md')]:{
             mainContainer:{
